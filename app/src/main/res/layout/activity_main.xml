@@ -1,43 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
 
-<TextView
-    android:id="@+id/playBtn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:singleLine="true"
-    android:text="Play"
-    android:textSize="80sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/settingsBtn"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/a_main_linear_layout_v_main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="Settings"
-        android:textSize="80sp"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/playBtn" />
-<!--<TextView-->
-<!--    android:id="@+id/timeTextView"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:singleLine="true"-->
-<!--    android:text="10:00"-->
-<!--    android:textSize="80sp"-->
-<!--    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    app:layout_constraintStart_toStartOf="parent"-->
-<!--    app:layout_constraintTop_toTopOf="@id/playBtn" />-->
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/setsTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/sets"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_sets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/setNumberMinusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px"
+                app:tint="@color/gradientGreenStop" />
+
+            <TextView
+                android:id="@+id/setNumberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/set_number"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/setNumberPlusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/gradientGreenStop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/a_main_text_view_work_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:text="@string/work_interval"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_work_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/workIntervalMinusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px"
+                app:tint="@color/gradientGreenStop" />
+
+            <TextView
+                android:id="@+id/workIntervalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/workIntervalPlusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/gradientGreenStop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/a_main_text_view_rest_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:text="@string/rest_interval"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_rest_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="80dp">
+
+            <ImageButton
+                android:id="@+id/restIntervalMinusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px"
+                app:tint="@color/gradientGreenStop" />
+
+            <TextView
+                android:id="@+id/restIntervalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/restIntervalPlusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/gradientGreenStop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/startB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_rectangle_green_cr30"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:text="@string/upper_start"
+            android:textColor="@color/white"
+            android:translationZ="2dp"
+            app:fontFamily="@font/montserrat" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

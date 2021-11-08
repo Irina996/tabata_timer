@@ -66,5 +66,18 @@ class PrefUtil {
             editor.putLong(ALARM_SET_TIME_ID, time)
             editor.apply()
         }
+
+        private const val CURRENT_SET_NUMBER_ID = "com.example.ppo1.current_set_number"
+
+        fun getCurrentSetNumber(context: ContentContext): Int {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return preferences.getInt(CURRENT_SET_NUMBER_ID, 0)
+        }
+
+        fun setCurrentSetNumber(number: Int, context: ContentContext){
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putInt(CURRENT_SET_NUMBER_ID, number)
+            editor.apply()
+        }
     }
 }

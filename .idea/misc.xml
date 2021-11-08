@@ -3,8 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/blue_gradient.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/custom_rectangle_green_cr30.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/green_gradient.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_add_24px.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_pause_24px.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_play_arrow_24px.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_remove_24px.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_replay_24px.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_stop_24px.xml" value="0.2111111111111111" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_timer.xml" value="0.2111111111111111" />
-        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/font/montserrat.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_settings.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_timer.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/content_timer.xml" value="0.20416666666666666" />

@@ -4,13 +4,16 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.*
-import androidx.annotation.RequiresApi
+import android.view.View
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.example.ppo1.AppConstants.Companion.FORMAT
+import com.example.ppo1.util.*
 import kotlinx.android.synthetic.main.activity_timer.*
-import kotlinx.android.synthetic.main.content_timer.*
-import com.example.ppo1.util.NotificationUtil
-import com.example.ppo1.util.PrefUtil
 import java.util.*
 
 
@@ -43,7 +46,7 @@ class TimerActivity : AppCompatActivity() {
         Stopped, Paused, Running
     }
 
-    private lateinit var timer: CountDownTimer
+    //private lateinit var timer: CountDownTimer
     private var timerLengthSeconds = 0L
     private var timerState = TimerState.Stopped
     private var secondsRemaining = 0L
@@ -51,156 +54,238 @@ class TimerActivity : AppCompatActivity() {
     private var startT = false
     private lateinit var context: Context
 
+    private var setNumberIni: Int = 0
+    private var workSecondsIni: Int = 0
+    private var restSecondsIni: Int = 0
+    private var currentSetNumber: Int = 0
+    private var currentStep: Int = 0
+    private var currentTime: Int = 0
+    private var timer: CountDownTimer? = null
+    private var isPaused: Boolean = false
+
+    private lateinit var mpRest: MediaPlayer
+    private lateinit var mpWork: MediaPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        mpRest = MediaPlayer.create(this, R.raw.beep)
+        mpWork = MediaPlayer.create(this, R.raw.boop)
+
         context = this
 
-        if (timerState != TimerState.Running) {
-            /*startTimer()
-            timerState = TimerState.Running*/
-            startT = true
-        }
-        startBtn.setOnClickListener{
+       /*startBtn.setOnClickListener{
             startTimer()
             timerState = TimerState.Running
+        }*/
+
+        iniActionButtons()
+        getValues()
+        iniGetReady()
+
+    }
+
+    private fun iniActionButtons() {
+        stopB.setOnClickListener {
+            cancelTimer()
+            this.finish()
         }
-    }
-
-    override fun onResume(){
-        super.onResume()
-
-        initTimer()
-
-        removeAlarm(this)
-        NotificationUtil.hideTimerNotification(this)
-
-        if(startT){
-            startTimer()
-            timerState = TimerState.Running
-            startT = false
+        replayB.setOnClickListener {
+            cancelTimer()
+            currentSetNumber = setNumberIni
+            iniGetReady()
+            isPaused = false
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onPause(){
-        super.onPause()
-
-        if (timerState == TimerState.Running) {
-            timer.cancel()
-            val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
-            NotificationUtil.showTimerRunning(this, wakeUpTime)
-        }
-        else if (timerState == TimerState.Paused) {
-            NotificationUtil.showTimerPaused(this)
-        }
-
-        PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
-        PrefUtil.setSecondsRemaining(secondsRemaining, this)
-        PrefUtil.setTimerState(timerState, this)
-    }
-
-    private fun initTimer() {
-        timerState =PrefUtil.getTimerState(this)
-
-        if (timerState == TimerState.Stopped)
-            setNewTimerLength()
-        else
-            setPreviousTimerLength()
-
-        secondsRemaining = if (timerState == TimerState.Running || timerState == TimerState.Paused)
-            PrefUtil.getSecondsRemaining(this)
-        else
-            timerLengthSeconds
-
-        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
-        if (alarmSetTime > 0)
-            secondsRemaining -= nowSeconds - alarmSetTime
-
-        if (secondsRemaining <= 0)
-            onTimerFinished()
-        else if (timerState == TimerState.Running)
-            startTimer()
-
-        // updateButtons
-        updateCountDownUI()
-    }
-
-    private fun onTimerFinished(){
-        timerState = TimerState.Stopped
-
-        setNewTimerLength()
-
-        progress_countdown.progress = 0
-
-        PrefUtil.setSecondsRemaining(timerLengthSeconds, this)
-        secondsRemaining = timerLengthSeconds
-
-        // updateButtons (ep2 20:20)
-        updateCountDownUI()
-    }
-
-    private fun startTimer(){
-        timerState = TimerState.Running
-        timer = object: CountDownTimer(secondsRemaining * 1000, 1000) {
-            override fun onFinish() = onTimerFinished()
-
-            override fun onTick(milisecUntilFinished: Long) {
-
-                secondsRemaining = milisecUntilFinished / 1000
-                updateCountDownUI()
-
-                if (secondsRemaining in 0..3) {
-                    val vib  = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        val vibratorManager =  getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
-                                as VibratorManager
-                        vibratorManager.defaultVibrator
-                    } else {
-                        getSystemService(VIBRATOR_SERVICE) as Vibrator
-                    }
-
-                    val canVibrate: Boolean = vib.hasVibrator()
-                    val milliseconds = if (secondsRemaining == 0L) 500L
-                    else 100L
-
-                    if (canVibrate) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            // API 26
-                            vib.vibrate(
-                                VibrationEffect.createOneShot(
-                                    milliseconds,
-                                    VibrationEffect.DEFAULT_AMPLITUDE
-                                )
-                            )
-                        } else {
-                            // This method was deprecated in API level 26
-                            vib.vibrate(milliseconds)
-                        }
-                    }
+        playPauseB.setOnClickListener {
+            if (!isPaused) {
+                cancelTimer()
+                playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
+                isPaused = true
+            } else {
+                if (currentStep != -1) {
+                    currentTime = convertMinutesToSeconds(
+                        getTimeFromStr(timeTV.text.toString()).first,
+                        getTimeFromStr(timeTV.text.toString()).second
+                    )
+                    playPauseB.setImageResource(R.drawable.ic_pause_24px)
+                    startTimer(currentTime)
+                    isPaused = false
                 }
             }
-        }.start()
+        }
     }
 
-    private fun setNewTimerLength(){
-        val lengthInMinutes = PrefUtil.getTimerLength(this)
-        timerLengthSeconds = (lengthInMinutes * 60L)
-        progress_countdown.max = timerLengthSeconds.toInt()
+    private fun iniGetReady() {
+        currentStep = 0
+        playPauseB.setImageResource(R.drawable.ic_pause_24px)
+        stepTV.isVisible = true
+        stepCountTV.isVisible = true
+        constraintLayout.setBackgroundResource(R.drawable.green_gradient)
+        val temp = "${resources.getString(R.string.upper_set)} $currentSetNumber"
+        stepCountTV.text = temp
+        stepTV.text = resources.getString(R.string.upper_get_ready)
+        timeTV.text = resources.getString(R.string.ini_time)
+        startTimer(6)
     }
 
-    private fun setPreviousTimerLength(){
-        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
-        progress_countdown.max = timerLengthSeconds.toInt()
+    private fun iniWorkout() {
+        currentStep = 1
+        constraintLayout.setBackgroundResource(R.drawable.blue_gradient)
+        var temp = "${resources.getString(R.string.upper_set)} $currentSetNumber"
+        stepCountTV.text = temp
+        stepTV.text = resources.getString(R.string.upper_work_it)
+        temp = "${String.format(
+            FORMAT,
+            convertSecondsToMinutes(workSecondsIni).first
+        )}:${String.format(FORMAT, convertSecondsToMinutes(workSecondsIni).second + 1)}"
+        timeTV.text = temp
+        startTimer(workSecondsIni + 1)
     }
 
-    private fun updateCountDownUI(){
-        val minutesUntilFinished = secondsRemaining / 60
-        val secondsInMinuteUntilFinished = secondsRemaining - minutesUntilFinished * 60
-        val secondsStr = secondsInMinuteUntilFinished.toString()
-        val timeStr = if (secondsStr.length == 2) "$minutesUntilFinished:$secondsStr"
-        else "$minutesUntilFinished:0$secondsInMinuteUntilFinished"
-        timeTextView.text = timeStr
-        progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
+    private fun iniRest() {
+        currentStep = 2
+        constraintLayout.setBackgroundResource(R.drawable.pink_gradient)
+        stepTV.text = resources.getString(R.string.upper_rest_now)
+        val temp = "${String.format(
+            FORMAT,
+            convertSecondsToMinutes(restSecondsIni).first
+        )}:${String.format(FORMAT, convertSecondsToMinutes(restSecondsIni).second + 1)}"
+        timeTV.text = temp
+        startTimer(restSecondsIni + 1)
+        currentSetNumber -= 1
+    }
+
+    private fun iniDone() {
+        currentStep = -1
+        stepTV.isVisible = false
+        stepCountTV.isVisible = false
+        timeTV.text = resources.getString(R.string.upper_done)
+        playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
+    }
+
+    private fun getValues() {
+        setNumberIni = intent.getIntExtra(AppConstants.INTENT_SET_NUMBER, 0)
+        currentSetNumber = setNumberIni
+        workSecondsIni = intent.getIntExtra(AppConstants.INTENT_WORK_INTERVAL, 0)
+        restSecondsIni = intent.getIntExtra(AppConstants.INTENT_REST_INTERVAL, 0)
+    }
+
+    private fun decreaseTV(textViewTime: TextView) {
+
+        if (currentStep == 1)
+            mpRest.start()
+        else
+            mpWork.start()
+
+        var currentTime = textViewTime.text.toString()
+        var seconds = getTimeFromStr(currentTime).second
+        var minutes = getTimeFromStr(currentTime).first
+        if (minutes != 0) {
+            if (seconds == 0) {
+                seconds = 59
+                minutes -= 1
+            } else {
+                seconds -= 1
+            }
+        } else {
+            if (seconds in 1..4) {
+                seconds -= 1
+                var vibrationTime = 100L
+                if (seconds == 0) {
+                    seconds = 0
+                    minutes = 0
+                    vibrationTime = 500L
+                }
+                val vib  = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val vibratorManager =  getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
+                            as VibratorManager
+                    vibratorManager.defaultVibrator
+                } else {
+                    getSystemService(VIBRATOR_SERVICE) as Vibrator
+                }
+
+                val canVibrate: Boolean = vib.hasVibrator()
+
+                if (canVibrate) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        // API 26
+                        vib.vibrate(
+                            VibrationEffect.createOneShot(
+                                vibrationTime,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
+                    } else {
+                        // This method was deprecated in API level 26
+                        vib.vibrate(vibrationTime)
+                    }
+                }
+            } else {
+                seconds -= 1
+            }
+        }
+        currentTime = String.format(FORMAT, minutes) + ":" + String.format(FORMAT, seconds)
+        textViewTime.text = currentTime
+    }
+
+    private fun startTimer(sec: Int) {
+        timer = object : CountDownTimer((sec * 1000).toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                decreaseTV(timeTV)
+            }
+
+            override fun onFinish() {
+                if (currentSetNumber != 0) {
+                    if (currentStep == 0 || currentStep == 2) {
+                        iniWorkout()
+                    } else if (currentStep == 1) {
+                        iniRest()
+                    } else {
+                        finish()
+                    }
+                } else {
+                    iniDone()
+                }
+            }
+        }
+        (timer as CountDownTimer).start()
+    }
+
+    private fun cancelTimer() {
+        timer?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelTimer()
+    }
+
+    private fun hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+    private fun showSystemUI() {
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) hideSystemUI()
     }
 }

@@ -1,53 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
     tools:context=".TimerActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
+        android:id="@+id/a_timer_linear_layout_v_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.PPO1.AppBarOverlay">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.PPO1.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:id="@+id/stepCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="20dp"
+            android:text="@string/upper_set"
+            android:textColor="@color/whiteTransparent50"
+            android:textSize="34sp"
+            app:fontFamily="@font/montserrat" />
 
-    <include layout="@layout/content_timer" />
+        <TextView
+            android:id="@+id/timeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/time"
+            android:textColor="@color/white"
+            android:textSize="54sp"
+            app:fontFamily="@font/montserrat" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/startBtn"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/stepTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:text="@string/upper_work_it"
+            android:textColor="@color/whiteTransparent50"
+            android:textSize="34sp"
+            app:fontFamily="@font/montserrat" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/a_timer_linear_layout_v_actions"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="60sp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="180dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        <ImageButton
+            android:id="@+id/replayB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:contentDescription="@string/desc_replay"
+            app:srcCompat="@drawable/ic_replay_24px" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="180dp"
-        android:layout_marginBottom="16dp"
+        <ImageButton
+            android:id="@+id/playPauseB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            android:contentDescription="@string/desc_pause_play"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:srcCompat="@drawable/ic_pause_24px"
+            app:tint="@color/white" />
 
-        app:srcCompat="@drawable/ic_stop" />-->
+        <ImageButton
+            android:id="@+id/stopB"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:contentDescription="@string/desc_pause_play"
+            app:srcCompat="@drawable/ic_stop_24px" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

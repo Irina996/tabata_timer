@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#818181</color>
+
+    <color name="whiteTransparent50">#80FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="gradientGreenStart">#42E695</color>
+    <color name="gradientGreenStop">#3BB2B8</color>
+
+    <color name="gradientPinkStart">#F54EA2</color>
+    <color name="gradientPinkStop">#FF7676</color>
+
+    <color name="gradientBlueStart">#17EAD9</color>
+    <color name="gradientBlueStop">#6078EA</color>
 </resources>
