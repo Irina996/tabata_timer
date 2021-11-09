@@ -9,9 +9,9 @@
     tools:context=".TimerActivity">
 
     <LinearLayout
-        android:id="@+id/a_timer_linear_layout_v_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="350dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +57,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/a_timer_linear_layout_v_actions"
+        android:id="@+id/actionButtonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="350dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,5 +96,33 @@
             app:srcCompat="@drawable/ic_stop_24px" />
 
     </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/phasesListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical">
+            <TextView
+                android:id="@+id/phasesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upper_phases"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:textSize="30sp"
+                android:isScrollContainer="true"/>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

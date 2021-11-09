@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.ppo1.AppConstants.Companion.FORMAT
@@ -77,13 +79,9 @@ class TimerActivity : AppCompatActivity() {
 
         context = this
 
-       /*startBtn.setOnClickListener{
-            startTimer()
-            timerState = TimerState.Running
-        }*/
-
         iniActionButtons()
         getValues()
+        iniPhasesList()
         iniGetReady()
 
     }
@@ -171,6 +169,30 @@ class TimerActivity : AppCompatActivity() {
         currentSetNumber = setNumberIni
         workSecondsIni = intent.getIntExtra(AppConstants.INTENT_WORK_INTERVAL, 0)
         restSecondsIni = intent.getIntExtra(AppConstants.INTENT_REST_INTERVAL, 0)
+    }
+
+    private fun iniPhasesList() {
+        val phases: Array<String> = Array(setNumberIni * 2 + 2){""}
+        phases[0] = "1. ${getString(R.string.upper_get_ready)}: 5"
+        var i = 1
+        while (i < setNumberIni * 2 + 1) {
+            if (i % 2 != 0)
+                phases[i] = "${i+1}. ${getString(R.string.upper_work_it)}: $workSecondsIni"
+            else
+                phases[i] = "${i+1}. ${getString(R.string.upper_rest_now)}: $restSecondsIni"
+            i++
+        }
+        phases[i] = "${i+1}. ${getString(R.string.upper_done)}"
+
+        phasesTitle.movementMethod = ScrollingMovementMethod.getInstance()
+        for (phase in phases) {
+            val textView = TextView(this)
+            textView.movementMethod = ScrollingMovementMethod.getInstance()
+            textView.text = phase
+            textView.textSize = 30F
+            textView.verticalScrollbarPosition
+            phasesListLayout.addView(textView)
+        }
     }
 
     private fun decreaseTV(textViewTime: TextView) {
