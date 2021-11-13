@@ -96,20 +96,15 @@ class TimerActivity : AppCompatActivity() {
         initTimer()
         iniPhasesList()
 
-        // TODO: remove background timer
-
-        /*initTimer(currentTime)
-
         removeAlarm(this)
-        NotificationUtil.hideTimerNotification(this)*/
     }
 
     override fun onPause() {
         super.onPause()
 
-        if (!isPaused /*timerState == TimerState.Running*/) {
+        if (!isPaused) {
             cancelTimer()
-            //TODO: start background timer
+            val wakeUpTime = setAlarm(this, nowSeconds, currentTime.toLong())
         }
 
         setTimerData()
@@ -118,12 +113,15 @@ class TimerActivity : AppCompatActivity() {
     private fun initTimer() {
         getTimerData()
 
-        val secondsRemaining = currentTime
+        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
+        if (alarmSetTime > 0)
+            currentTime -= nowSeconds.toInt() - alarmSetTime.toInt()
+
         when (currentStep) {
-            TimerStep.WarmUp -> iniGetReady(secondsRemaining)
-            TimerStep.Work -> iniWorkout(secondsRemaining)
-            TimerStep.Rest -> iniRest(secondsRemaining)
-            TimerStep.CoolDown -> iniCoolDown(secondsRemaining)
+            TimerStep.WarmUp -> iniGetReady(currentTime)
+            TimerStep.Work -> iniWorkout(currentTime)
+            TimerStep.Rest -> iniRest(currentTime)
+            TimerStep.CoolDown -> iniCoolDown(currentTime)
             TimerStep.Done -> iniDone()
         }
         if (isPaused) {

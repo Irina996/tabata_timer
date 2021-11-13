@@ -13,19 +13,6 @@ class PrefUtil {
             return preferences.getInt(TIMER_LENGTH_ID, 10)
         }
 
-        /*private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.example.ppo1.previous_timer_length_seconds"
-
-        fun getPreviousTimerLengthSeconds(context: ContentContext): Long{
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
-        }
-
-        fun setPreviousTimerLengthSeconds(seconds: Long, context: ContentContext){
-            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-            editor.putLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, seconds)
-            editor.apply()
-        }*/
-
         private const val SECONDS_REMAINING_ID = "com.example.ppo1.seconds_remaining"
 
         fun getSecondsRemaining(context: ContentContext): Long{
@@ -51,8 +38,6 @@ class PrefUtil {
             editor.putLong(ALARM_SET_TIME_ID, time)
             editor.apply()
         }
-
-        // try to do it
 
         private const val INITIAL_SET_NUMBER_ID = "com.example.ppo1.initial_set_number"
 
