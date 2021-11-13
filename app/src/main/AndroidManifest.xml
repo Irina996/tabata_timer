@@ -21,17 +21,10 @@
             android:name=".SettingsActivity"
             android:exported="false" />
 
-        <receiver
-            android:name=".TimerNotificationActionReceiver"
+        <service android:name=".TimerService"
             android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="stop" />
-                <action android:name="pause" />
-                <action android:name="resume" />
-                <action android:name="start" />
-            </intent-filter>
-        </receiver>
+            android:exported="false"/>
+
         <receiver
             android:name=".TimerExpiredReceiver"
             android:enabled="true"

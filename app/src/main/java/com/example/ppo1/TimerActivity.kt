@@ -44,18 +44,12 @@ class TimerActivity : AppCompatActivity() {
 
         val nowSeconds: Long
             get() = Calendar.getInstance().timeInMillis / 1000
-    }
 
-    enum class TimerState {
-        Stopped, Paused, Running
     }
 
     enum class TimerStep {
         WarmUp, Work, Rest, CoolDown, Done
     }
-
-    private lateinit var context: Context
-    private lateinit var receiver: BroadcastReceiver
 
     private var iniSetNumber: Int = 0
     private var iniWorkSeconds: Int = 0
@@ -67,8 +61,6 @@ class TimerActivity : AppCompatActivity() {
     private var currentTime: Int = 0  // seconds remaining
     private var timer: CountDownTimer? = null
     private var isPaused: Boolean = false
-    // private var timerState = TimerState.Stopped
-    // private var secondsRemaining: Int = 0
 
     private lateinit var mpRest: MediaPlayer
     private lateinit var mpWork: MediaPlayer
@@ -77,15 +69,10 @@ class TimerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
-        /*receiver = TimerReceiver()
-        registerReceiver(receiver, IntentFilter("GET_TIMER_TICK"))*/
-
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         mpRest = MediaPlayer.create(this, R.raw.beep)
         mpWork = MediaPlayer.create(this, R.raw.boop)
-
-        context = this
 
         iniActionButtons()
     }
@@ -96,6 +83,7 @@ class TimerActivity : AppCompatActivity() {
         initTimer()
         iniPhasesList()
 
+        stopService(Intent(this, TimerService::class.java))
         removeAlarm(this)
     }
 
@@ -104,6 +92,7 @@ class TimerActivity : AppCompatActivity() {
 
         if (!isPaused) {
             cancelTimer()
+            startService(Intent(this, TimerService::class.java))
             val wakeUpTime = setAlarm(this, nowSeconds, currentTime.toLong())
         }
 
@@ -155,6 +144,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun iniActionButtons() {
         stopB.setOnClickListener {
+            isPaused = true
             cancelTimer()
             this.finish()
         }

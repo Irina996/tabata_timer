@@ -5,6 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
+import android.widget.TextView
+import androidx.core.view.isVisible
+import com.example.ppo1.util.PrefUtil
+import kotlinx.android.synthetic.main.activity_timer.*
 
 class TimerService : Service() {
     private var iniSetNumber: Int = 0
@@ -13,8 +17,9 @@ class TimerService : Service() {
     private var iniWarmUpSeconds: Int = 0
     private var iniCoolDownSeconds: Int = 0
     private var currentSetNumber: Int = 0
-    private var currentStep: Int = 0
+    private var currentStep = TimerActivity.TimerStep.WarmUp
     private var currentTime: Int = 0  // seconds remaining
+    private var isPaused: Boolean = false
     private var timer: CountDownTimer? = null
 
     private lateinit var mpRest: MediaPlayer
@@ -24,46 +29,86 @@ class TimerService : Service() {
         mpRest = MediaPlayer.create(this, R.raw.beep)
         mpWork = MediaPlayer.create(this, R.raw.boop)
 
-        if (intent != null) {
-            getValues(intent)
-        }
+        getTimerData()
 
-        initTimer(currentTime)
+        initTimer()
 
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+
+        cancelTimer()
+        setTimerData()
     }
 
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
 
-    private fun getValues(intent: Intent) {
-        iniSetNumber = intent.getIntExtra(AppConstants.INTENT_SET_NUMBER, 0)
-        currentSetNumber = intent.getIntExtra(AppConstants.CURRENT_SET_NUMBER, 0)
-        currentStep = intent.getIntExtra(AppConstants.CURRENT_STEP_NUMBER, 0)
-        currentTime = intent.getIntExtra(AppConstants.CURRENT_TIME, 0)
-        iniWorkSeconds = intent.getIntExtra(AppConstants.INTENT_WORK_INTERVAL, 0)
-        iniRestSeconds = intent.getIntExtra(AppConstants.INTENT_REST_INTERVAL, 0)
-        iniWarmUpSeconds = 5
-        iniCoolDownSeconds = 10
+    private fun setTimerData() {
+        PrefUtil.setIniSetNumber(iniSetNumber, this)
+        PrefUtil.setCurrentSetNumber(currentSetNumber, this)
+        PrefUtil.setIniWorkSeconds(iniWorkSeconds, this)
+        PrefUtil.setIniRestSeconds(iniRestSeconds, this)
+        PrefUtil.setIniWarmUpSeconds(iniWarmUpSeconds, this)
+        PrefUtil.setIniCoolDownSeconds(iniCoolDownSeconds, this)
+        PrefUtil.setCurrentStepNumber(currentStep, this)
+        PrefUtil.setCurrentTime(currentTime, this)
+        PrefUtil.setTimerState(isPaused, this)
+    }
+
+    private fun getTimerData() {
+        iniSetNumber = PrefUtil.getIniSetNumber(this)
+        currentSetNumber = PrefUtil.getCurrentSetNumber(this)
+        iniWorkSeconds = PrefUtil.getIniWorkSeconds(this)
+        iniRestSeconds = PrefUtil.getIniRestSeconds(this)
+        iniWarmUpSeconds = PrefUtil.getIniWarmUpSeconds(this)
+        iniCoolDownSeconds = PrefUtil.getIniCoolDownSeconds(this)
+        currentStep = PrefUtil.getCurrentStepNumber(this)
+        currentTime = PrefUtil.getCurrentTime(this)
+        isPaused = PrefUtil.getTimerState(this)
+    }
+
+    private fun initTimer() {
+        getTimerData()
+
+        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
+        if (alarmSetTime > 0)
+            currentTime -= TimerActivity.nowSeconds.toInt() - alarmSetTime.toInt()
+
+        when (currentStep) {
+            TimerActivity.TimerStep.WarmUp -> iniGetReady(currentTime)
+            TimerActivity.TimerStep.Work -> iniWorkout(currentTime)
+            TimerActivity.TimerStep.Rest -> iniRest(currentTime)
+            TimerActivity.TimerStep.CoolDown -> iniCoolDown(currentTime)
+            TimerActivity.TimerStep.Done -> iniDone()
+        }
+        if (isPaused) {
+            cancelTimer()
+        }
     }
 
     private fun startTimer(sec: Int) {
+        currentTime = sec
+
         timer = object : CountDownTimer((sec * 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                onTimerTick(currentTime)
+                onTimerTick()
             }
 
             override fun onFinish() {
                 if (currentSetNumber != iniSetNumber + 1) {
-                    if (currentStep == 0 || currentStep == 2) {
+                    if (currentStep == TimerActivity.TimerStep.WarmUp || currentStep == TimerActivity.TimerStep.Rest) {
                         iniWorkout()
-                    } else if (currentStep == 1) {
-                        iniRest()
+                    } else if (currentStep == TimerActivity.TimerStep.Work) {
+                        if (currentSetNumber == iniSetNumber)
+                            iniCoolDown()
+                        else
+                            iniRest()
+                    } else if (currentStep == TimerActivity.TimerStep.CoolDown) {
+                        iniDone()
                     }
                 } else {
                     iniDone()
@@ -73,16 +118,15 @@ class TimerService : Service() {
         (timer as CountDownTimer).start()
     }
 
-    private fun onTimerTick(time: Int) {
+    private fun onTimerTick() {
 
-        if (currentStep == 1)
-            mpRest.start()
-        else
+        if (currentStep == TimerActivity.TimerStep.Work)
             mpWork.start()
+        else
+            mpRest.start()
 
-        currentTime = time
-        var seconds = time % 60
-        var minutes = (time - seconds) / 60
+        var seconds = currentTime % 60
+        var minutes = (currentTime - seconds) / 60
         if (minutes != 0) {
             if (seconds == 0) {
                 seconds = 59
@@ -99,8 +143,8 @@ class TimerService : Service() {
                     minutes = 0
                     vibrationTime = 500L
                 }
-                val vib  = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    val vibratorManager =  getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
+                val vib = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
                             as VibratorManager
                     vibratorManager.defaultVibrator
                 } else {
@@ -130,23 +174,12 @@ class TimerService : Service() {
         currentTime = minutes * 60 + seconds
     }
 
-    private fun initTimer(secondsRemaining: Int) {
-        if (currentStep == 0) {
-            iniWorkout(secondsRemaining)
-        }
-        else if (currentStep == 1) {
-            iniRest(secondsRemaining)
-        }
-        else if (currentStep == 2) {
-            if (currentSetNumber == iniSetNumber + 1)
-                iniDone()
-            else
-                iniWorkout(secondsRemaining)
-        }
+    private fun cancelTimer() {
+        timer?.cancel()
     }
 
     private fun iniGetReady(secondsRemaining: Int = -1) {
-        currentStep = 0
+        currentStep = TimerActivity.TimerStep.WarmUp // 0
         if (secondsRemaining == -1)
             startTimer(iniWarmUpSeconds)
         else
@@ -155,7 +188,7 @@ class TimerService : Service() {
     }
 
     private fun iniWorkout(secondsRemaining: Int = -1) {
-        currentStep = 1
+        currentStep = TimerActivity.TimerStep.Work
         if (secondsRemaining == -1)
             startTimer(iniWorkSeconds)
         else
@@ -163,7 +196,7 @@ class TimerService : Service() {
     }
 
     private fun iniRest(secondsRemaining: Int = -1) {
-        currentStep = 2
+        currentStep = TimerActivity.TimerStep.Rest
         if (secondsRemaining == -1)
             startTimer(iniRestSeconds)
         else
@@ -172,8 +205,8 @@ class TimerService : Service() {
     }
 
     private fun iniCoolDown(secondsRemaining: Int = -1) {
-        currentStep = 3
-        if (secondsRemaining == 0)
+        currentStep = TimerActivity.TimerStep.CoolDown
+        if (secondsRemaining == -1)
             startTimer(iniCoolDownSeconds)
         else
             startTimer(secondsRemaining)
@@ -181,30 +214,6 @@ class TimerService : Service() {
     }
 
     private fun iniDone() {
-        currentStep = -1
-    }
-
-    private fun sendDataToActivity() {
-        val intent = Intent()
-        intent.action = "GET_TIMER_TICK"
-        intent.putExtra(AppConstants.INTENT_SET_NUMBER, iniSetNumber)
-        intent.putExtra(AppConstants.INTENT_WORK_INTERVAL, iniWorkSeconds)
-        intent.putExtra(AppConstants.INTENT_REST_INTERVAL, iniRestSeconds)
-        intent.putExtra(AppConstants.CURRENT_SET_NUMBER, currentSetNumber)
-        intent.putExtra(AppConstants.CURRENT_STEP_NUMBER, currentStep)
-        intent.putExtra(AppConstants.CURRENT_TIME, currentTime)
-        sendBroadcast(intent)
-
-        /*Intent intent = new Intent("GPSLocationUpdates");
-    // You can also include some extra data.
-    intent.putExtra("Status", msg);
-    Bundle b = new Bundle();
-    b.putParcelable("Location", l);
-    intent.putExtra("Location", b);
-    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);*/
-        /*val sendLevel = Intent()
-        sendLevel.action = "GET_SIGNAL_STRENGTH"
-        sendLevel.putExtra("LEVEL_DATA", "Strength_Value")
-        sendBroadcast(sendLevel)*/
+        currentStep = TimerActivity.TimerStep.Done // -1
     }
 }
