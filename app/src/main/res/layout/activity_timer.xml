@@ -97,6 +97,48 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="300dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/beforeB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:contentDescription="@string/desc_pause_play"
+            app:srcCompat="@drawable/ic_baseline_navigate_before" />
+
+        <TextView
+            android:id="@+id/phasesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upper_phases"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:orientation="vertical"
+            android:textSize="30sp"
+            android:isScrollContainer="true"
+            android:textColor="@color/white"/>
+
+        <ImageButton
+            android:id="@+id/nextB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:contentDescription="@string/desc_pause_play"
+            app:srcCompat="@drawable/ic_baseline_navigate_next" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -111,17 +153,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:scrollbars="vertical">
-            <TextView
-                android:id="@+id/phasesTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/upper_phases"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:scrollbars="vertical"
-                android:textSize="30sp"
-                android:isScrollContainer="true"/>
+
         </LinearLayout>
     </ScrollView>
 

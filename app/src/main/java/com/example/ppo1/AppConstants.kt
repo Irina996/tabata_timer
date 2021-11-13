@@ -11,5 +11,9 @@ class AppConstants {
         const val INTENT_SET_NUMBER = "sets_number"
         const val INTENT_WORK_INTERVAL = "work_interval"
         const val INTENT_REST_INTERVAL = "rest_interval"
+        const val CURRENT_SET_NUMBER = "current_set_number"
+        const val CURRENT_STEP_NUMBER = "current_step_number"
+        const val CURRENT_TIME = "current_time"
+        const val CURRENT_TIMER_STATE = "current_timer_state"
     }
 }

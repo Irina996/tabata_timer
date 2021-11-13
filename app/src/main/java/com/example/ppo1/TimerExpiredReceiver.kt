@@ -9,10 +9,10 @@ import com.example.ppo1.util.PrefUtil
 class TimerExpiredReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+        /*// This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         NotificationUtil.showTimerExpired(context)
 
         PrefUtil.setTimerState(TimerActivity.TimerState.Stopped, context)
-        PrefUtil.setAlarmSetTime(0, context)
+        PrefUtil.setAlarmSetTime(0, context)*/
     }
 }

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import com.example.ppo1.util.PrefUtil
 import com.example.ppo1.util.convertMinutesToSeconds
 import com.example.ppo1.util.getTimeFromStr
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,11 +28,27 @@ class MainActivity : AppCompatActivity() {
                 getTimeFromStr(restIntervalTV.text.toString()).first,
                 getTimeFromStr(restIntervalTV.text.toString()).second
             )
-            val intent = Intent(this, TimerActivity::class.java)
-            intent.putExtra(AppConstants.INTENT_SET_NUMBER, setNumber)
-            intent.putExtra(AppConstants.INTENT_WORK_INTERVAL, workSeconds)
-            intent.putExtra(AppConstants.INTENT_REST_INTERVAL, restSeconds)
-            this.startActivity(intent)
+            val warmUpSeconds = 5
+            val coolDownSeconds = 10
+
+            if (setNumber != 0 && workSeconds != 0 && restSeconds != 0 &&
+                warmUpSeconds != 0 && coolDownSeconds != 0
+            ) {
+
+
+                PrefUtil.setIniSetNumber(setNumber, this)
+                PrefUtil.setCurrentSetNumber(0, this)
+                PrefUtil.setIniWorkSeconds(workSeconds + 1, this)
+                PrefUtil.setIniRestSeconds(restSeconds + 1, this)
+                PrefUtil.setIniWarmUpSeconds(warmUpSeconds + 1, this)
+                PrefUtil.setIniCoolDownSeconds(coolDownSeconds + 1, this)
+                PrefUtil.setCurrentStepNumber(TimerActivity.TimerStep.WarmUp, this)
+                PrefUtil.setCurrentTime(warmUpSeconds + 1, this)
+                PrefUtil.setTimerState(false, this)
+
+                val intent = Intent(this, TimerActivity::class.java)
+                this.startActivity(intent)
+            }
         }
         iniButtonListener()
     }
@@ -74,7 +91,10 @@ class MainActivity : AppCompatActivity() {
             seconds = 0
             minutes += 1
         }
-        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(AppConstants.FORMAT, seconds)
+        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(
+            AppConstants.FORMAT,
+            seconds
+        )
         textViewTime.text = currentTime
     }
 
@@ -93,7 +113,10 @@ class MainActivity : AppCompatActivity() {
                 minutes = 0
             }
         }
-        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(AppConstants.FORMAT, seconds)
+        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(
+            AppConstants.FORMAT,
+            seconds
+        )
         textViewTime.text = currentTime
     }
 
