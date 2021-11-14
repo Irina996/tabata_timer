@@ -164,8 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="80dp">
+            android:paddingTop="10dp">
 
             <ImageButton
                 android:id="@+id/restIntervalMinusB"
@@ -197,6 +196,133 @@
 
             <ImageButton
                 android:id="@+id/restIntervalPlusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/gradientGreenStop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/a_main_text_view_warm_up_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:text="@string/warm_up_interval"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_warm_up_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp">
+
+            <ImageButton
+                android:id="@+id/warmUpIntervalMinusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px"
+                app:tint="@color/gradientGreenStop" />
+
+            <TextView
+                android:id="@+id/warmUpIntervalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/warmUpIntervalPlusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_plus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_24px"
+                app:tint="@color/gradientGreenStop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/a_main_text_view_cool_down_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:text="@string/cool_down_interval"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:fontFamily="@font/montserrat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/a_main_constraint_layout_cool_down_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="80dp">
+
+            <ImageButton
+                android:id="@+id/coolDownIntervalMinusB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:background="@color/white"
+                android:contentDescription="@string/desc_minus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_remove_24px"
+                app:tint="@color/gradientGreenStop" />
+
+            <TextView
+                android:id="@+id/coolDownIntervalTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/grey"
+                android:textSize="18sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/coolDownIntervalPlusB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

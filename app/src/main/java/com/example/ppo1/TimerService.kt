@@ -48,35 +48,33 @@ class TimerService : Service() {
     }
 
     private fun setTimerData() {
-        PrefUtil.setIniSetNumber(iniSetNumber, this)
-        PrefUtil.setCurrentSetNumber(currentSetNumber, this)
-        PrefUtil.setIniWorkSeconds(iniWorkSeconds, this)
-        PrefUtil.setIniRestSeconds(iniRestSeconds, this)
-        PrefUtil.setIniWarmUpSeconds(iniWarmUpSeconds, this)
-        PrefUtil.setIniCoolDownSeconds(iniCoolDownSeconds, this)
-        PrefUtil.setCurrentStepNumber(currentStep, this)
-        PrefUtil.setCurrentTime(currentTime, this)
-        PrefUtil.setTimerState(isPaused, this)
+        val context = applicationContext
+        PrefUtil.setIniSetNumber(iniSetNumber, context)
+        PrefUtil.setCurrentSetNumber(currentSetNumber, context)
+        PrefUtil.setIniWorkSeconds(iniWorkSeconds, context)
+        PrefUtil.setIniRestSeconds(iniRestSeconds, context)
+        PrefUtil.setIniWarmUpSeconds(iniWarmUpSeconds, context)
+        PrefUtil.setIniCoolDownSeconds(iniCoolDownSeconds, context)
+        PrefUtil.setCurrentStepNumber(currentStep, context)
+        PrefUtil.setCurrentTime(currentTime, context)
+        PrefUtil.setTimerState(isPaused, context)
     }
 
     private fun getTimerData() {
-        iniSetNumber = PrefUtil.getIniSetNumber(this)
-        currentSetNumber = PrefUtil.getCurrentSetNumber(this)
-        iniWorkSeconds = PrefUtil.getIniWorkSeconds(this)
-        iniRestSeconds = PrefUtil.getIniRestSeconds(this)
-        iniWarmUpSeconds = PrefUtil.getIniWarmUpSeconds(this)
-        iniCoolDownSeconds = PrefUtil.getIniCoolDownSeconds(this)
-        currentStep = PrefUtil.getCurrentStepNumber(this)
-        currentTime = PrefUtil.getCurrentTime(this)
-        isPaused = PrefUtil.getTimerState(this)
+        val context = applicationContext
+        iniSetNumber = PrefUtil.getIniSetNumber(context)
+        currentSetNumber = PrefUtil.getCurrentSetNumber(context)
+        iniWorkSeconds = PrefUtil.getIniWorkSeconds(context)
+        iniRestSeconds = PrefUtil.getIniRestSeconds(context)
+        iniWarmUpSeconds = PrefUtil.getIniWarmUpSeconds(context)
+        iniCoolDownSeconds = PrefUtil.getIniCoolDownSeconds(context)
+        currentStep = PrefUtil.getCurrentStepNumber(context)
+        currentTime = PrefUtil.getCurrentTime(context)
+        isPaused = PrefUtil.getTimerState(context)
     }
 
     private fun initTimer() {
         getTimerData()
-
-        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
-        if (alarmSetTime > 0)
-            currentTime -= TimerActivity.nowSeconds.toInt() - alarmSetTime.toInt()
 
         when (currentStep) {
             TimerActivity.TimerStep.WarmUp -> iniGetReady(currentTime)

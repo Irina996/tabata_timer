@@ -28,8 +28,14 @@ class MainActivity : AppCompatActivity() {
                 getTimeFromStr(restIntervalTV.text.toString()).first,
                 getTimeFromStr(restIntervalTV.text.toString()).second
             )
-            val warmUpSeconds = 5
-            val coolDownSeconds = 10
+            val warmUpSeconds : Int = convertMinutesToSeconds(
+                getTimeFromStr(warmUpIntervalTV.text.toString()).first,
+                getTimeFromStr(warmUpIntervalTV.text.toString()).second
+            )
+            val coolDownSeconds : Int = convertMinutesToSeconds(
+                getTimeFromStr(coolDownIntervalTV.text.toString()).first,
+                getTimeFromStr(coolDownIntervalTV.text.toString()).second
+            )
 
             if (setNumber != 0 && workSeconds != 0 && restSeconds != 0 &&
                 warmUpSeconds != 0 && coolDownSeconds != 0
@@ -61,33 +67,49 @@ class MainActivity : AppCompatActivity() {
             plusOrMinus1(setNumberTV)
         }
         workIntervalPlusB.setOnClickListener {
-            plus10(workIntervalTV)
+            plusNumber(workIntervalTV)
         }
         workIntervalMinusB.setOnClickListener {
-            minus10(workIntervalTV)
+            minusNumber(workIntervalTV)
         }
         restIntervalPlusB.setOnClickListener {
-            plus10(restIntervalTV)
+            plusNumber(restIntervalTV)
         }
         restIntervalMinusB.setOnClickListener {
-            minus10(restIntervalTV)
+            minusNumber(restIntervalTV)
+        }
+        warmUpIntervalPlusB.setOnClickListener {
+            plusNumber(warmUpIntervalTV, number = 5)
+        }
+        warmUpIntervalMinusB.setOnClickListener {
+            minusNumber(warmUpIntervalTV, number = 5)
+        }
+        coolDownIntervalPlusB.setOnClickListener {
+            plusNumber(coolDownIntervalTV, number = 5)
+        }
+        coolDownIntervalMinusB.setOnClickListener {
+            minusNumber(coolDownIntervalTV, number = 5)
         }
 
         setButtonLongClick(restIntervalPlusB, restIntervalTV)
         setButtonLongClick(workIntervalPlusB, workIntervalTV)
+        setButtonLongClick(warmUpIntervalPlusB, warmUpIntervalTV)
+        setButtonLongClick(coolDownIntervalPlusB, coolDownIntervalTV)
         setButtonLongClick(restIntervalMinusB, restIntervalTV, add = false)
         setButtonLongClick(workIntervalMinusB, workIntervalTV, add = false)
+        setButtonLongClick(warmUpIntervalMinusB, warmUpIntervalTV, add = false)
+        setButtonLongClick(coolDownIntervalMinusB, coolDownIntervalTV, add = false)
         setButtonLongClick(setNumberMinusB, setNumberTV, add = false, time = false)
         setButtonLongClick(setNumberPlusB, setNumberTV, add = true, time = false)
     }
 
-    private fun plus10(textViewTime: TextView) {
+    private fun plusNumber(textViewTime: TextView, number: Int = 10) {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
-        if (seconds < 50) {
-            seconds += 10
-        } else if (seconds == 50) {
+        if (seconds < 60 - number) {
+            seconds += number
+        } else if (seconds == 60 - number) {
             seconds = 0
             minutes += 1
         }
@@ -98,15 +120,15 @@ class MainActivity : AppCompatActivity() {
         textViewTime.text = currentTime
     }
 
-    private fun minus10(textViewTime: TextView) {
+    private fun minusNumber(textViewTime: TextView, number: Int = 10) {
         var currentTime = textViewTime.text.toString()
         var seconds = getTimeFromStr(currentTime).second
         var minutes = getTimeFromStr(currentTime).first
         if (seconds > 0) {
-            seconds -= 10
+            seconds -= number
         } else if (seconds == 0) {
             if (minutes != 0) {
-                seconds = 50
+                seconds = 60 - number
                 minutes -= 1
             } else {
                 seconds = 0
@@ -146,9 +168,9 @@ class MainActivity : AppCompatActivity() {
                     if (button.isPressed) {
                         if (time) {
                             if (add) {
-                                plus10(textView)
+                                plusNumber(textView)
                             } else {
-                                minus10(textView)
+                                minusNumber(textView)
                             }
                         } else {
                             plusOrMinus1(textView, add)

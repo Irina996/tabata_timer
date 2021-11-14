@@ -18,6 +18,8 @@
     <string name="upper_cool_down">ОСТЫТЬ</string>
     <string name="work_interval">Интервал работы</string>
     <string name="rest_interval">Интервал отдыха</string>
+    <string name="warm_up_interval">Интервал подготовки</string>
+    <string name="cool_down_interval">Интервал остывания</string>
     <string name="upper_start">СТАРТ</string>
     <string name="upper_done">ГОТОВО!</string>
     <string name="desc_minus">минус</string>
