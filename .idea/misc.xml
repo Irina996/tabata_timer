@@ -16,12 +16,15 @@
         <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_stop_24px.xml" value="0.2111111111111111" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/drawable/ic_timer.xml" value="0.2111111111111111" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/font/montserrat.xml" value="0.2111111111111111" />
-        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_entry.xml" value="0.20416666666666666" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_settings.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_timer.xml" value="0.25" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/layout/activity_workout.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/content_timer.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/layout/fragment_first.xml" value="0.20416666666666666" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2111111111111111" />
+        <entry key="..\:/Ira/PPO1/app/src/main/res/mipmap-anydpi-v26/ic_timer.xml" value="0.2203125" />
         <entry key="..\:/Ira/PPO1/app/src/main/res/xml/preferences.xml" value="0.20416666666666666" />
       </map>
     </option>

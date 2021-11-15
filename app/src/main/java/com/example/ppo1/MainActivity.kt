@@ -1,16 +1,25 @@
 package com.example.ppo1
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings.Global.getInt
+import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import com.example.ppo1.util.PrefUtil
 import com.example.ppo1.util.convertMinutesToSeconds
+import com.example.ppo1.util.convertSecondsToMinutes
 import com.example.ppo1.util.getTimeFromStr
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_timer.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,173 +27,53 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startB.setOnClickListener {
-            val setNumber: Int = setNumberTV.text.toString().toInt()
-            val workSeconds: Int = convertMinutesToSeconds(
-                getTimeFromStr(workIntervalTV.text.toString()).first,
-                getTimeFromStr(workIntervalTV.text.toString()).second
-            )
-            val restSeconds: Int = convertMinutesToSeconds(
-                getTimeFromStr(restIntervalTV.text.toString()).first,
-                getTimeFromStr(restIntervalTV.text.toString()).second
-            )
-            val warmUpSeconds : Int = convertMinutesToSeconds(
-                getTimeFromStr(warmUpIntervalTV.text.toString()).first,
-                getTimeFromStr(warmUpIntervalTV.text.toString()).second
-            )
-            val coolDownSeconds : Int = convertMinutesToSeconds(
-                getTimeFromStr(coolDownIntervalTV.text.toString()).first,
-                getTimeFromStr(coolDownIntervalTV.text.toString()).second
-            )
+        createNewB.setOnClickListener {
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("FILE_NAME", "")
+            this.startActivity(intent)
+            Log.d("CREATE NEW", "CREATE NEW")
+        }
 
-            if (setNumber != 0 && workSeconds != 0 && restSeconds != 0 &&
-                warmUpSeconds != 0 && coolDownSeconds != 0
-            ) {
+        openActBtn.setOnClickListener {
+            val intent = Intent(this, EntryActivity::class.java)
+            this.startActivity(intent)
+        }
+        // iniButtons()
+    }
 
+    override fun onResume() {
+        super.onResume()
 
-                PrefUtil.setIniSetNumber(setNumber, this)
-                PrefUtil.setCurrentSetNumber(0, this)
-                PrefUtil.setIniWorkSeconds(workSeconds + 1, this)
-                PrefUtil.setIniRestSeconds(restSeconds + 1, this)
-                PrefUtil.setIniWarmUpSeconds(warmUpSeconds + 1, this)
-                PrefUtil.setIniCoolDownSeconds(coolDownSeconds + 1, this)
-                PrefUtil.setCurrentStepNumber(TimerActivity.TimerStep.WarmUp, this)
-                PrefUtil.setCurrentTime(warmUpSeconds + 1, this)
-                PrefUtil.setTimerState(false, this)
+        iniButtons()
+    }
 
-                val intent = Intent(this, TimerActivity::class.java)
+    private fun iniButtons() {
+        workoutListLayout.removeAllViews()
+
+        val listOfNames = PrefUtil.getFileNames(this)
+
+        var temp = listOfNames
+        while (temp != "") {
+            val fileName = temp.substringBefore(',')
+            temp = temp.replace(fileName, "")
+            if (temp != "" && temp[0] == ',') {
+                temp = temp.substringAfter(", ")
+            }
+            val title = fileName.substringAfter("ppo1.").substringBeforeLast(')')
+
+            val button = Button(this)
+            button.movementMethod = ScrollingMovementMethod.getInstance()
+            button.text = title
+            button.textSize = resources.getDimension(R.dimen.workout_name)
+            button.verticalScrollbarPosition
+            workoutListLayout.addView(button)
+            button.setOnClickListener {
+                val fileName =  "(com.example.ppo1.${button.text})"
+                val intent = Intent(this, WorkoutActivity::class.java)
+                intent.putExtra("FILE_NAME", fileName)
                 this.startActivity(intent)
             }
         }
-        iniButtonListener()
-    }
-
-    private fun iniButtonListener() {
-        setNumberMinusB.setOnClickListener {
-            plusOrMinus1(setNumberTV, false)
-        }
-        setNumberPlusB.setOnClickListener {
-            plusOrMinus1(setNumberTV)
-        }
-        workIntervalPlusB.setOnClickListener {
-            plusNumber(workIntervalTV)
-        }
-        workIntervalMinusB.setOnClickListener {
-            minusNumber(workIntervalTV)
-        }
-        restIntervalPlusB.setOnClickListener {
-            plusNumber(restIntervalTV)
-        }
-        restIntervalMinusB.setOnClickListener {
-            minusNumber(restIntervalTV)
-        }
-        warmUpIntervalPlusB.setOnClickListener {
-            plusNumber(warmUpIntervalTV, number = 5)
-        }
-        warmUpIntervalMinusB.setOnClickListener {
-            minusNumber(warmUpIntervalTV, number = 5)
-        }
-        coolDownIntervalPlusB.setOnClickListener {
-            plusNumber(coolDownIntervalTV, number = 5)
-        }
-        coolDownIntervalMinusB.setOnClickListener {
-            minusNumber(coolDownIntervalTV, number = 5)
-        }
-
-        setButtonLongClick(restIntervalPlusB, restIntervalTV)
-        setButtonLongClick(workIntervalPlusB, workIntervalTV)
-        setButtonLongClick(warmUpIntervalPlusB, warmUpIntervalTV)
-        setButtonLongClick(coolDownIntervalPlusB, coolDownIntervalTV)
-        setButtonLongClick(restIntervalMinusB, restIntervalTV, add = false)
-        setButtonLongClick(workIntervalMinusB, workIntervalTV, add = false)
-        setButtonLongClick(warmUpIntervalMinusB, warmUpIntervalTV, add = false)
-        setButtonLongClick(coolDownIntervalMinusB, coolDownIntervalTV, add = false)
-        setButtonLongClick(setNumberMinusB, setNumberTV, add = false, time = false)
-        setButtonLongClick(setNumberPlusB, setNumberTV, add = true, time = false)
-    }
-
-    private fun plusNumber(textViewTime: TextView, number: Int = 10) {
-        var currentTime = textViewTime.text.toString()
-        var seconds = getTimeFromStr(currentTime).second
-        var minutes = getTimeFromStr(currentTime).first
-        if (seconds < 60 - number) {
-            seconds += number
-        } else if (seconds == 60 - number) {
-            seconds = 0
-            minutes += 1
-        }
-        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(
-            AppConstants.FORMAT,
-            seconds
-        )
-        textViewTime.text = currentTime
-    }
-
-    private fun minusNumber(textViewTime: TextView, number: Int = 10) {
-        var currentTime = textViewTime.text.toString()
-        var seconds = getTimeFromStr(currentTime).second
-        var minutes = getTimeFromStr(currentTime).first
-        if (seconds > 0) {
-            seconds -= number
-        } else if (seconds == 0) {
-            if (minutes != 0) {
-                seconds = 60 - number
-                minutes -= 1
-            } else {
-                seconds = 0
-                minutes = 0
-            }
-        }
-        currentTime = String.format(AppConstants.FORMAT, minutes) + ":" + String.format(
-            AppConstants.FORMAT,
-            seconds
-        )
-        textViewTime.text = currentTime
-    }
-
-    private fun plusOrMinus1(textViewSet: TextView, add: Boolean = true) {
-        var currentSetNumber = textViewSet.text.toString().toInt()
-        if (add) {
-            currentSetNumber += 1
-        } else if (currentSetNumber != 0 && !add) {
-            currentSetNumber -= 1
-        } else if (currentSetNumber == 0 && !add) {
-            currentSetNumber = 0
-        }
-        textViewSet.text = currentSetNumber.toString()
-    }
-
-    private fun setButtonLongClick(
-        button: ImageButton,
-        textView: TextView,
-        add: Boolean = true,
-        time: Boolean = true
-    ) {
-        button.setOnLongClickListener(object : View.OnLongClickListener {
-            private val mHandler: Handler = Handler()
-            private val incrementRunnable: Runnable = object : Runnable {
-                override fun run() {
-                    mHandler.removeCallbacks(this)
-                    if (button.isPressed) {
-                        if (time) {
-                            if (add) {
-                                plusNumber(textView)
-                            } else {
-                                minusNumber(textView)
-                            }
-                        } else {
-                            plusOrMinus1(textView, add)
-                        }
-                        mHandler.postDelayed(this, 100)
-                    }
-                }
-            }
-
-            override fun onLongClick(view: View): Boolean {
-                mHandler.postDelayed(incrementRunnable, 0)
-                return true
-            }
-        })
     }
 
     private fun hideSystemUI() {

@@ -10,6 +10,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string name="title">Title</string>
     <string name="sets">Sets</string>
     <string name="upper_set">SET</string>
     <string name="upper_work_it">WORK IT</string>
@@ -32,4 +33,13 @@
     <string name="set_number">0</string>
     <string name="ini_time">00:06</string>
     <string name="upper_phases">PHASES</string>
+    <string name="upper_save">SAVE</string>
+    <string name="upper_delete">DELETE</string>
+    <string name="upper_create_new">CREATE NEW</string>
+
+    <string name="msg_saved">Workout was saved successfully</string>
+    <string name="msg_not_saved">Workout was not saved. All fields should be filled</string>
+    <string name="msg_title_already_exist">Workout with such name already exist</string>
+    <string name="msg_deleted">Workout was deleted successfully</string>
+
 </resources>

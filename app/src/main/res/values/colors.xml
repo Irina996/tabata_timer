@@ -20,4 +20,6 @@
 
     <color name="gradientBlueStart">#17EAD9</color>
     <color name="gradientBlueStop">#6078EA</color>
+
+    <color name="entryActivity">#5CB5AA</color>
 </resources>

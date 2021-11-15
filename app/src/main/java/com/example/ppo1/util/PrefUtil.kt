@@ -159,5 +159,35 @@ class PrefUtil {
             editor.putInt(CURRENT_TIMER_STATE_ID, number)
             editor.apply()
         }
+
+        private const val FILE_NAMES_ID = "com.example.ppo1.file_names"
+
+        fun getFileNames(context: ContentContext): String {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return preferences.getString(FILE_NAMES_ID, "").toString()
+        }
+
+        fun setFileNames(names: String, context: ContentContext){
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putString(FILE_NAMES_ID, names)
+            editor.apply()
+        }
+
+        fun getFile(context: ContentContext, filename: String): String {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return preferences.getString(filename, "").toString()
+        }
+
+        fun setFile(text: String, context: ContentContext, filename: String){
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putString(filename, text)
+            editor.apply()
+        }
+
+        fun removeFile(filename: String, context: ContentContext) {
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.remove(filename)
+            editor.apply()
+        }
     }
 }

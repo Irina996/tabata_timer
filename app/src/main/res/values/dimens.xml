@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text">30sp</dimen>
+    <dimen name="workout_name">15sp</dimen>
 </resources>

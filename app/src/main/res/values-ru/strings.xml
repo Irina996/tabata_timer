@@ -32,4 +32,13 @@
     <string name="set_number">0</string>
     <string name="ini_time">00:06</string>
     <string name="upper_phases">ФАЗЫ</string>
+    <string name="title">Название</string>
+    <string name="upper_save">СОХРАНИТЬ</string>
+    <string name="upper_delete">УДАЛИТЬ</string>
+    <string name="upper_create_new">СОЗДАТЬ</string>
+
+    <string name="msg_saved">Тренировка была сохранена успешно</string>
+    <string name="msg_not_saved">Тренировка не была сохранена. Все поля должны быть заполнены</string>
+    <string name="msg_title_already_exist">Тренировка с таким названием уже существует</string>
+    <string name="msg_deleted">Тренировка была удалена успешно</string>
 </resources>

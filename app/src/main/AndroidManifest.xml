@@ -3,7 +3,7 @@
     package="com.example.ppo1">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PPO1">
         <activity
+            android:name=".EntryActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".WorkoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".TimerActivity"
             android:exported="false"
             android:label="@string/title_activity_timer"
@@ -21,9 +32,10 @@
             android:name=".SettingsActivity"
             android:exported="false" />
 
-        <service android:name=".TimerService"
+        <service
+            android:name=".TimerService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <receiver
             android:name=".TimerExpiredReceiver"
@@ -32,12 +44,9 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:enabled="true"
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
