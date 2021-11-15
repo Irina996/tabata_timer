@@ -33,12 +33,6 @@ class MainActivity : AppCompatActivity() {
             this.startActivity(intent)
             Log.d("CREATE NEW", "CREATE NEW")
         }
-
-        openActBtn.setOnClickListener {
-            val intent = Intent(this, EntryActivity::class.java)
-            this.startActivity(intent)
-        }
-        // iniButtons()
     }
 
     override fun onResume() {

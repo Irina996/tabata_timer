@@ -3,8 +3,6 @@ package com.example.ppo1
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.CountDownTimer
-import com.example.ppo1.util.NotificationUtil
 import com.example.ppo1.util.PrefUtil
 
 class TimerExpiredReceiver : BroadcastReceiver() {

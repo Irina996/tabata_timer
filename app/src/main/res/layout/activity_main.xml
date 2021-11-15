@@ -16,14 +16,6 @@
         android:text="@string/upper_create_new"
         android:layout_margin="10dp"
         android:layout_weight="1"/>
-    <Button
-        android:id="@+id/openActBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text"
-        android:text="OPEN ACTIVITY"
-        android:layout_margin="10dp"
-        android:layout_weight="1"/>
 
     <ScrollView
         android:id="@+id/scrollView"
