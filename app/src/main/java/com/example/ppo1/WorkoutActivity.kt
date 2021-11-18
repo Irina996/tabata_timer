@@ -38,15 +38,13 @@ import kotlinx.android.synthetic.main.activity_workout.workIntervalMinusB
 import kotlinx.android.synthetic.main.activity_workout.workIntervalPlusB
 import kotlinx.android.synthetic.main.activity_workout.workIntervalTV
 
-class WorkoutActivity : AppCompatActivity() {
+class WorkoutActivity : BaseActivity() {
 
     private var previousTitle = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
-
-        Log.d("Workout", "!1!")
 
         // var fileName = intent.getStringExtra("FILE_NAME").toString()
         var fileName = savedInstanceState?.getSerializable("FILE_NAME")?.toString()
@@ -56,12 +54,8 @@ class WorkoutActivity : AppCompatActivity() {
                 intent.extras!!.getString("FILE_NAME").toString()
             }
 
-        Log.d("Workout", "!2!")
-
         if (fileName != "")
             getWorkoutFromFile(fileName)
-
-        Log.d("Workout", "!3!")
 
         startB.setOnClickListener {
             val title = titleET.text.toString()
@@ -357,26 +351,6 @@ class WorkoutActivity : AppCompatActivity() {
             }
         })
     }
-
-    /*private fun getWorkoutFromFile() {
-
-        val listOfNames = PrefUtil.getFileNames(this)
-
-        val fileName = listOfNames.substringBefore(',').toString()
-
-        Log.d("Debug", fileName)
-
-        val builder = GsonBuilder()
-        val gson: Gson = builder.create()
-        val workout = gson.fromJson(PrefUtil.getFile(this, fileName), Workout::class.java)
-
-        titleET.setText(workout.title)
-        setNumberTV.text = workout.iniSetNumber.toString()
-        workIntervalTV.text = getTimeInFormat(workout.iniWorkSeconds)
-        restIntervalTV.text = getTimeInFormat(workout.iniRestSeconds)
-        warmUpIntervalTV.text = getTimeInFormat(workout.iniWarmUpSeconds)
-        coolDownIntervalTV.text = getTimeInFormat(workout.iniCoolDownSeconds)
-    }*/
 
     private fun getTimeInFormat(sec: Int): String {
         val (minutes, seconds) = convertSecondsToMinutes(sec)

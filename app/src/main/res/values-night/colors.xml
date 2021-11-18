@@ -12,18 +12,18 @@
     <color name="whiteTransparent50">#80FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="gradientGreenStart">#42E695</color>
-    <color name="gradientGreenStop">#3BB2B8</color>
+    <color name="gradientGreenStart">#097A71</color>
+    <color name="gradientGreenStop">#097A4D</color>
 
-    <color name="gradientPinkStart">#F54EA2</color>
-    <color name="gradientPinkStop">#FF7676</color>
+    <color name="gradientPinkStart">#7A0971</color>
+    <color name="gradientPinkStop">#7A092F</color>
 
-    <color name="gradientBlueStart">#17EAD9</color>
-    <color name="gradientBlueStop">#6078EA</color>
+    <color name="gradientBlueStart">#096D7A</color>
+    <color name="gradientBlueStop">#1E47B0</color>
 
     <color name="entryActivity">#5CB5AA</color>
 
-    <color name="layoutColor">#FFFFFFFF</color>
-    <color name="mainTextColor">#FF000000</color>
+    <color name="layoutColor">#2E3134</color>
+    <color name="mainTextColor">#FFFFFFFF</color>
     <color name="dark">#1F1B24</color>
 </resources>

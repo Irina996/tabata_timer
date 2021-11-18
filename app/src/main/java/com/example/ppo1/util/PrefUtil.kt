@@ -1,5 +1,7 @@
 package com.example.ppo1.util
 
+import android.content.SharedPreferences
+import android.text.method.TextKeyListener.clear
 import androidx.preference.PreferenceManager
 import com.example.ppo1.TimerActivity
 import android.content.Context as ContentContext
@@ -187,6 +189,12 @@ class PrefUtil {
         fun removeFile(filename: String, context: ContentContext) {
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
             editor.remove(filename)
+            editor.apply()
+        }
+
+        fun removeData(context: android.content.Context){
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.clear()
             editor.apply()
         }
     }

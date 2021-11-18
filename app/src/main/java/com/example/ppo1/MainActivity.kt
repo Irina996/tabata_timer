@@ -21,23 +21,58 @@ import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_timer.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+         super.onCreate(savedInstanceState)
+         if (SettingsActivity.goBack) {
+            SettingsActivity.goBack = false
+            /*val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)*/
+            this.finish()
+        }
+
         setContentView(R.layout.activity_main)
 
         createNewB.setOnClickListener {
             val intent = Intent(this, WorkoutActivity::class.java)
             intent.putExtra("FILE_NAME", "")
             this.startActivity(intent)
-            Log.d("CREATE NEW", "CREATE NEW")
+        }
+
+        settingsB.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            this.startActivity(intent)
         }
     }
 
     override fun onResume() {
+        if (SettingsActivity.goBack) {
+            SettingsActivity.goBack = false
+
+            this.finish()
+        }
+        if (SettingsActivity.isLanguageChanged || SettingsActivity.isFontChanged) {
+            SettingsActivity.isLanguageChanged = false
+            SettingsActivity.isFontChanged = false
+            recreate()
+        }
         super.onResume()
 
+        /*when (BaseActivity.dFontSize) {
+            "big" -> {
+                settingsB.textSize = resources.getDimension(R.dimen.text_big)
+                createNewB.textSize = resources.getDimension(R.dimen.text_big)
+            }
+            "small" -> {
+                settingsB.textSize = resources.getDimension(R.dimen.text_small)
+                createNewB.textSize = resources.getDimension(R.dimen.text_small)
+            }
+            "normal" -> {
+                settingsB.textSize = resources.getDimension(R.dimen.text_normal)
+                createNewB.textSize = resources.getDimension(R.dimen.text_normal)
+            }
+        }*/
         iniButtons()
     }
 
@@ -58,11 +93,16 @@ class MainActivity : AppCompatActivity() {
             val button = Button(this)
             button.movementMethod = ScrollingMovementMethod.getInstance()
             button.text = title
-            button.textSize = resources.getDimension(R.dimen.workout_name)
+           /* when (BaseActivity.dFontSize) {
+                "big" -> button.textSize = resources.getDimension(R.dimen.text_big)
+                "small" -> button.textSize = resources.getDimension(R.dimen.text_small)
+                "normal" -> button.textSize = resources.getDimension(R.dimen.text_normal)
+            }*/
+            button.textSize = resources.getDimension(R.dimen.text_normal)
             button.verticalScrollbarPosition
             workoutListLayout.addView(button)
             button.setOnClickListener {
-                val fileName =  "(com.example.ppo1.${button.text})"
+                val fileName = "(com.example.ppo1.${button.text})"
                 val intent = Intent(this, WorkoutActivity::class.java)
                 intent.putExtra("FILE_NAME", fileName)
                 this.startActivity(intent)

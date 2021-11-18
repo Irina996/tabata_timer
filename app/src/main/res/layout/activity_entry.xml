@@ -19,6 +19,7 @@
         android:textSize="80sp"
         android:text="@string/app_name"
         android:gravity="center_horizontal"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="@color/layoutColor"/>
 
 </LinearLayout>

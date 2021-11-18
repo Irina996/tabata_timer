@@ -21,7 +21,7 @@ import java.util.*
 import android.content.IntentFilter
 
 
-class TimerActivity : AppCompatActivity() {
+class TimerActivity : BaseActivity() {
 
     companion object {
         fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long): Long {
@@ -44,7 +44,6 @@ class TimerActivity : AppCompatActivity() {
 
         val nowSeconds: Long
             get() = Calendar.getInstance().timeInMillis / 1000
-
     }
 
     enum class TimerStep {

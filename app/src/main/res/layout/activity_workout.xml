@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/layoutColor">
 
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/title"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -55,7 +55,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/sets"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -73,12 +73,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_minus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_remove_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_remove_24px"/>
 
             <TextView
                 android:id="@+id/setNumberTV"
@@ -100,12 +99,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_plus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_add_24px"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -115,7 +113,7 @@
             android:gravity="center"
             android:paddingTop="30dp"
             android:text="@string/work_interval"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -132,12 +130,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_minus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_remove_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_remove_24px"/>
 
             <TextView
                 android:id="@+id/workIntervalTV"
@@ -159,12 +156,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_plus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_add_24px" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -175,7 +171,7 @@
             android:gravity="center"
             android:paddingTop="30dp"
             android:text="@string/rest_interval"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -192,12 +188,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_minus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_remove_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_remove_24px"/>
 
             <TextView
                 android:id="@+id/restIntervalTV"
@@ -219,12 +214,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_plus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_add_24px"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -234,7 +228,7 @@
             android:gravity="center"
             android:paddingTop="30dp"
             android:text="@string/warm_up_interval"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -247,16 +241,15 @@
 
             <ImageButton
                 android:id="@+id/warmUpIntervalMinusB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="17dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_minus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_remove_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_remove_24px"/>
 
             <TextView
                 android:id="@+id/warmUpIntervalTV"
@@ -278,12 +271,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_plus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_add_24px" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -293,7 +285,7 @@
             android:gravity="center"
             android:paddingTop="30dp"
             android:text="@string/cool_down_interval"
-            android:textColor="@color/black"
+            android:textColor="@color/mainTextColor"
             android:textSize="22sp"
             app:fontFamily="@font/montserrat" />
 
@@ -311,12 +303,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_minus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_remove_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_remove_24px"/>
 
             <TextView
                 android:id="@+id/coolDownIntervalTV"
@@ -338,12 +329,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="80dp"
-                android:background="@color/white"
+                android:background="@color/layoutColor"
                 android:contentDescription="@string/desc_plus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_24px"
-                app:tint="@color/gradientGreenStop" />
+                app:srcCompat="@drawable/ic_add_24px" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
