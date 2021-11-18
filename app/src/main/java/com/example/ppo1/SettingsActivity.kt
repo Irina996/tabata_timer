@@ -17,6 +17,7 @@ import android.content.SharedPreferences
 import android.os.Build.VERSION
 
 import android.os.Build.VERSION_CODES
+import android.util.Log
 import androidx.core.view.children
 import com.example.ppo1.util.PrefUtil
 import kotlinx.android.synthetic.main.mylayout.*
@@ -28,14 +29,15 @@ class SettingsActivity : BaseActivity() {
         var goBack = false
         var isLanguageChanged = false
         var isFontChanged = false
-        var b2 = false
-        var b3 = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+
+        Log.d("Debug", "SettingsActivity onCreate")
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -62,6 +64,9 @@ class SettingsActivity : BaseActivity() {
             val theme = findPreference<SwitchPreferenceCompat>("theme")
 
             theme?.setOnPreferenceChangeListener { _, newValue ->
+
+                Log.d("Debug", "SettingsFragment themePreferenceChanged")
+
                 if (newValue as Boolean) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 } else {
@@ -92,56 +97,5 @@ class SettingsActivity : BaseActivity() {
                 true
             }
         }
-
-        /*
-            public void setLocale(String lang) {
-
-                Locale myLocale = new Locale(lang);
-                Resources res = getResources();
-                DisplayMetrics dm = res.getDisplayMetrics();
-                Configuration conf = res.getConfiguration();
-                conf.locale = myLocale;
-                res.updateConfiguration(conf, dm);
-                Locale.setDefault(myLocale);
-                onConfigurationChanged(conf);
-            }
-
-            private static void setLanguagePref(Context mContext, String localeKey) {
-                AppPreference appPreference = new AppPreference(mContext);
-                appPreference.setLanguage(localeKey);
-            }
-
-            public static String getLanguagePref(Context mContext) {
-                AppPreference appPreference = new AppPreference(mContext);
-                return appPreference.getLanguage();
-            }
-        */
-        /*
-            @Override
-            protected void attachBaseContext(Context base) {
-                super.attachBaseContext(base);
-            }
-
-            @Override
-            public void onConfigurationChanged(Configuration newConfig) {
-                //set Text Again of All layouts
-                //Prefer to make a function and then set All Text
-
-                super.onConfigurationChanged(newConfig);
-            }
-
-            @Override
-            protected void onResume() {
-
-                setLocale(getLanguagePref(getApplicationContext()));
-                super.onResume();
-            }
-        */
-        /*
-            //Now set the Language on Any Event like Onclick
-
-            setLocale("ar");
-            setLanguagePref(MainActivity.this, "ar");
-        */
     }
 }

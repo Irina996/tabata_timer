@@ -13,7 +13,6 @@
         android:id="@+id/settingsB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_normal"
         android:text="@string/settings"
         android:layout_margin="10dp"
         android:layout_weight="1"/>
@@ -22,10 +21,9 @@
         android:id="@+id/createNewB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_normal"
-        android:text="@string/upper_create_new"
         android:layout_margin="10dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:text="@string/upper_create_new" />
 
     <ScrollView
         android:id="@+id/scrollView"

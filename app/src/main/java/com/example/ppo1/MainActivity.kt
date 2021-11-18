@@ -34,6 +34,8 @@ class MainActivity : BaseActivity() {
 
         setContentView(R.layout.activity_main)
 
+        Log.d("Debug", "MainActivity onCreate")
+
         createNewB.setOnClickListener {
             val intent = Intent(this, WorkoutActivity::class.java)
             intent.putExtra("FILE_NAME", "")
@@ -58,6 +60,7 @@ class MainActivity : BaseActivity() {
             recreate()
         }
         super.onResume()
+        Log.d("Debug", "MainActivity onResume")
 
         /*when (BaseActivity.dFontSize) {
             "big" -> {
@@ -98,7 +101,7 @@ class MainActivity : BaseActivity() {
                 "small" -> button.textSize = resources.getDimension(R.dimen.text_small)
                 "normal" -> button.textSize = resources.getDimension(R.dimen.text_normal)
             }*/
-            button.textSize = resources.getDimension(R.dimen.text_normal)
+            // button.textSize = resources.getDimension(R.dimen.text_normal)
             button.verticalScrollbarPosition
             workoutListLayout.addView(button)
             button.setOnClickListener {
