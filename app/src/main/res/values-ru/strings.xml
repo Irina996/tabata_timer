@@ -53,4 +53,10 @@
 
     <string name="clear_all">Удалить данные</string>
     <string name="settings">настройки</string>
+
+    <string name="colour">Цвет</string>
+    <string name="colour_red">красный</string>
+    <string name="colour_green">зеленый</string>
+    <string name="colour_blue">синий</string>
+
 </resources>

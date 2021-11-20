@@ -45,6 +45,7 @@ class WorkoutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
+        TimerActivity.isPaused = true
 
         // var fileName = intent.getStringExtra("FILE_NAME").toString()
         var fileName = savedInstanceState?.getSerializable("FILE_NAME")?.toString()
@@ -77,9 +78,16 @@ class WorkoutActivity : BaseActivity() {
                 getTimeFromStr(coolDownIntervalTV.text.toString()).second
             )
 
+            var colour: String = ""
+            when {
+                redRadioB.isChecked -> colour = "red"
+                greenRadioB.isChecked -> colour = "green"
+                blueRadioB.isChecked -> colour = "blue"
+            }
+
             if (setNumber != 0 && workSeconds != 0 && restSeconds != 0 &&
                 warmUpSeconds != 0 && coolDownSeconds != 0 && title != "" &&
-                !title.contains(',')
+                !title.contains(',') && colour != ""
             ) {
 
                 PrefUtil.setIniSetNumber(setNumber, this)
@@ -138,9 +146,16 @@ class WorkoutActivity : BaseActivity() {
                 getTimeFromStr(coolDownIntervalTV.text.toString()).second
             )
 
+            var colour: String = ""
+            when {
+                redRadioB.isChecked -> colour = "red"
+                greenRadioB.isChecked -> colour = "green"
+                blueRadioB.isChecked -> colour = "blue"
+            }
+
             if (setNumber != 0 && workSeconds != 0 && restSeconds != 0 &&
                 warmUpSeconds != 0 && coolDownSeconds != 0 && title != "" &&
-                !title.contains(',')
+                !title.contains(',') && colour != ""
             ) {
                 var listOfNames = PrefUtil.getFileNames(this)
 
@@ -170,7 +185,7 @@ class WorkoutActivity : BaseActivity() {
 
                     val workout = Workout(
                         title, setNumber, workSeconds,
-                        restSeconds, warmUpSeconds, coolDownSeconds
+                        restSeconds, warmUpSeconds, coolDownSeconds, colour
                     )
 
                     val builder = GsonBuilder()
@@ -209,6 +224,19 @@ class WorkoutActivity : BaseActivity() {
         iniButtonListener()
     }
 
+    override fun onStart() {
+        Log.d("Debug", "WorkoutActivity onResume before if")
+
+        if (!TimerActivity.isPaused) {
+            val intent = Intent(this, TimerActivity::class.java)
+            this.startActivity(intent)
+            //finish()
+        }
+        super.onStart()
+
+        Log.d("Debug", "WorkoutActivity onResume after if")
+    }
+
     private fun getWorkoutFromFile(fileName: String) {
 
         val builder = GsonBuilder()
@@ -222,6 +250,12 @@ class WorkoutActivity : BaseActivity() {
         warmUpIntervalTV.text = getTimeInFormat(workout.iniWarmUpSeconds)
         coolDownIntervalTV.text = getTimeInFormat(workout.iniCoolDownSeconds)
         previousTitle = workout.title
+
+        when (workout.colour) {
+            "red" -> redRadioB.isChecked = true
+            "green" -> greenRadioB.isChecked = true
+            "blue" -> blueRadioB.isChecked = true
+        }
     }
 
     private fun iniButtonListener() {

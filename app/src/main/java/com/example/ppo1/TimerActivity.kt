@@ -19,6 +19,7 @@ import com.example.ppo1.util.*
 import kotlinx.android.synthetic.main.activity_timer.*
 import java.util.*
 import android.content.IntentFilter
+import android.util.Log
 
 
 class TimerActivity : BaseActivity() {
@@ -44,6 +45,8 @@ class TimerActivity : BaseActivity() {
 
         val nowSeconds: Long
             get() = Calendar.getInstance().timeInMillis / 1000
+
+        var isPaused: Boolean = false
     }
 
     enum class TimerStep {
@@ -59,7 +62,7 @@ class TimerActivity : BaseActivity() {
     private var currentStep = TimerStep.WarmUp
     private var currentTime: Int = 0  // seconds remaining
     private var timer: CountDownTimer? = null
-    private var isPaused: Boolean = false
+
 
     private lateinit var mpRest: MediaPlayer
     private lateinit var mpWork: MediaPlayer
@@ -96,6 +99,8 @@ class TimerActivity : BaseActivity() {
         }
 
         setTimerData()
+
+        Log.d("Debug", "TimerActivity onPause")
     }
 
     private fun initTimer() {
@@ -302,6 +307,7 @@ class TimerActivity : BaseActivity() {
         stepCountTV.isVisible = false
         timeTV.text = resources.getString(R.string.upper_done)
         playPauseB.setImageResource(R.drawable.ic_play_arrow_24px)
+        isPaused = true
     }
 
     private fun iniPhasesList() {

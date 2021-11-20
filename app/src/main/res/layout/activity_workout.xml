@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,8 @@
                 android:text="@string/title"
                 android:textColor="@color/mainTextColor"
                 android:textSize="22sp"
-                app:fontFamily="@font/montserrat" />
+                app:fontFamily="@font/montserrat"
+                android:paddingTop="30dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -47,9 +48,64 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="80dp"
-                    android:layout_marginRight="80dp">
+                    android:layout_marginRight="80dp"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true">
 
                 </EditText>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/colourTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/colour"
+                android:textColor="@color/mainTextColor"
+                android:textSize="22sp"
+                app:fontFamily="@font/montserrat"
+                android:paddingTop="30dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_colour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="10dp">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/redRadioB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/colour_red"
+                        android:layout_marginLeft="24dp"
+                        />
+                    <RadioButton
+                        android:id="@+id/greenRadioB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/colour_green"
+                        android:layout_marginLeft="24dp"
+                        />
+                    <RadioButton
+                        android:id="@+id/blueRadioB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/colour_blue"
+                        android:layout_marginLeft="24dp"
+                        />
+
+                </RadioGroup>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -62,7 +118,8 @@
                 android:text="@string/sets"
                 android:textColor="@color/mainTextColor"
                 android:textSize="22sp"
-                app:fontFamily="@font/montserrat" />
+                app:fontFamily="@font/montserrat"
+                android:paddingTop="30dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_layout_sets"

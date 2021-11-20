@@ -53,4 +53,9 @@
 
     <string name="clear_all">Clear app data</string>
     <string name="settings">settings</string>
+
+    <string name="colour">Colour</string>
+    <string name="colour_red">red</string>
+    <string name="colour_green">green</string>
+    <string name="colour_blue">blue</string>
 </resources>
